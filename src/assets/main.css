@@ -16,4 +16,7 @@
   .router.router-link-exact-active {
     @apply bg-black text-white hover:bg-black hover:text-white dark:bg-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white;
   }
+  body {
+    @apply selection:bg-blue-100 selection:text-blue-500;
+  }
 }
