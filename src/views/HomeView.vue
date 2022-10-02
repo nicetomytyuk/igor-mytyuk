@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import ResumeMenu from "../components/ResumeMenu.vue";
+
+function mailto() {
+ window.location.href = "mailto:igor.mytyuk@gmail.com";
+}
 </script>
 
 <template>
@@ -20,10 +24,9 @@ import ResumeMenu from "../components/ResumeMenu.vue";
     </div>
     <div class="space-y-6 md:space-y space-x-4 mt-4">
       <ResumeMenu></ResumeMenu>
-      <a href="mailto:igor.mytyuk@gmail.com" target="_top" class="py-3 px-6 md:px-12 font-semibold rounded-md border bg-white border-blue-500 text-blue-600"
-        type="button">
+      <button @click="mailto" class="py-3 px-6 md:px-12 font-semibold rounded-md border bg-white border-blue-500 text-blue-600" type="button">
         Contact Me
-      </a>
+      </button>
     </div>
   </main>
 </template>
