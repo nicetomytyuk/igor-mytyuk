@@ -1,11 +1,15 @@
+<script setup lang="ts">
+import { CodeBracketIcon } from '@heroicons/vue/20/solid';
+import SocialLinks from './SocialLinks.vue';
+</script>
 <template>
     <header class="relative z-50 text-gray-900">
-        <div class="flex items-center max-w-6xl px-4 py-6 mx-auto sm:px-6 space-x-4">
-            <img class="inline-block rounded-full ring-2 ring-white" height="80" width="80" src="@/assets/avatar.png" />
-            <div class="flex flex-col justify-start lg:w-0 lg:flex-1">
-                <h2 class="transform-gpu text-sm font-bold text-blue-600">Igor Mytyuk</h2>
-                <h3 class="font-bold text-blue-300">Ігор Митюк</h3>
+        <div class="flex items-center px-4 py-6 mx-auto sm:px-6 space-x-4">
+            <div class="flex items-center justify-start flex-1">
+                <CodeBracketIcon class="mr-2 h-4 w-4" aria-hidden="true" />
+                <h2 class="transform-gpu text-sm font-bold">Igor Mytyuk</h2>
             </div>
+            <SocialLinks />
         </div>
     </header>
 </template>
