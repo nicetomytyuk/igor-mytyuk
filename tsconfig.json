@@ -5,9 +5,10 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "jsx": "preserve",
+    "jsxImportSource": "vue"
   },
-
   "references": [
     {
       "path": "./tsconfig.config.json"
