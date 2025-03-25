@@ -11,7 +11,7 @@ function mailto() {
 </script>
 
 <template>
-  <main class="max-w-7xl mt-12 md:mt-24 px-4 sm:px-6 w-full mx-auto text-neutral-900">
+  <main class="max-w-7xl my-12 md:my-24 px-4 sm:px-6 w-full mx-auto text-neutral-900">
     <div class="flex flex-col bg-white/20 backdrop-blur-sm shadow-sm p-6 rounded justify-cente">
       <h2 class="font-bold text-5xl md:leading-normal sm:text-6xl">Hey, I'm
         <span class="before:block before:absolute before:-inset-2">
@@ -38,7 +38,7 @@ function mailto() {
       </div>
 
 
-      <div class="flex flex-col md:flex-row md:space-x-4 md:space-y space-y-4 space-x mt-8">
+      <div class="flex flex-col md:flex-row md:space-x-4 md:space-y-0 space-y-4 space-x-0 mt-8">
         <div class="flex-1">
           <CodeBracketIcon class="mr-2 h-8 w-8 mb-2" />
           <h2 class="text-xl font-bold">Full Stack</h2>
