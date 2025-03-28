@@ -8,7 +8,7 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "deploy": "gh-pages -d dist"
+    "deploy": "vite build && node copy.js && gh-pages -d dist"
   },
   "dependencies": {
     "@headlessui/vue": "^1.7.2",
