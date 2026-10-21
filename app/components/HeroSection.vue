@@ -4,6 +4,7 @@ import { hero, site } from '~/data/profile'
 
 <template>
   <section id="top" class="hero" aria-labelledby="hero-title">
+    <HeroGrid />
     <div class="wrap">
       <p class="eyebrow hero__role">{{ site.jobTitle }}</p>
       <h1 id="hero-title" class="hero__title">
@@ -45,7 +46,14 @@ import { hero, site } from '~/data/profile'
 
 <style scoped>
 .hero {
+  position: relative;
+  isolation: isolate;
   padding-block: clamp(2.5rem, 8vw, 6.5rem) clamp(3rem, 8vw, 6rem);
+}
+
+.hero > .wrap {
+  position: relative;
+  z-index: 1;
 }
 
 .hero__role {
