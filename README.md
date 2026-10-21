@@ -1,46 +1,26 @@
-# igor-mytyuk
+# igormytyuk.dev
 
-This template should help get you started developing with Vue 3 in Vite.
+Personal portfolio of Ihor Mytyuk. Nuxt 4, statically generated, no client-side data fetching.
 
-## Recommended IDE Setup
+## Commands
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
-
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
-
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
+```bash
 npm install
+npm run dev        # http://localhost:3000
+npm run build      # static output in .output/public
+npm run preview
 ```
 
-### Compile and Hot-Reload for Development
+## Where things live
 
-```sh
-npm run dev
-```
+- `app/data/profile.ts` holds every career fact, metric, skill and link. Edit content here, not in components.
+- `app/components/` has one component per page section.
+- `app/assets/css/main.css` holds the design tokens and shared styles.
+- `public/files/Ihor_Mytyuk_Resume.pdf` is the downloadable resume. Replace the file, keep the name.
+- `public/sitemap.xml` and `public/robots.txt` are hand-maintained (single page).
 
-### Type-Check, Compile and Minify for Production
+## Deployment
 
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+GitHub Pages with the custom domain from `public/CNAME`. Pushing to `master` runs
+`.github/workflows/deploy.yml`, which builds and publishes `.output/public`.
+In the repository settings, Pages must use "GitHub Actions" as its source.
