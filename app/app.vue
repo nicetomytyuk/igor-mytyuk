@@ -103,5 +103,6 @@ useHead({
       <ContactSection />
     </main>
     <AppFooter />
+    <BackToTop />
   </div>
 </template>

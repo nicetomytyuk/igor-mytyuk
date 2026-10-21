@@ -6,6 +6,21 @@ const active = ref('')
 const toggle = ref<HTMLButtonElement | null>(null)
 const header = ref<HTMLElement | null>(null)
 
+// After a nav click the clicked item is highlighted right away and scroll-driven
+// updates pause until the smooth scroll ends. Otherwise the highlight only
+// changes once the target nears the trigger line, which for Contact is the very end.
+let target = ''
+let release = () => {}
+let fallback: ReturnType<typeof setTimeout> | undefined
+
+function onNavClick(href: string) {
+  close()
+  target = href
+  active.value = href
+  clearTimeout(fallback)
+  fallback = setTimeout(release, 1500)
+}
+
 function close(returnFocus = false) {
   open.value = false
   if (returnFocus) toggle.value?.focus()
@@ -23,24 +38,55 @@ onMounted(() => {
   window.addEventListener('keydown', onKeydown)
   document.addEventListener('pointerdown', onPointerDown)
 
-  const sections = navigation
-    .map((item) => document.querySelector(item.href))
-    .filter((el): el is Element => el !== null)
+  // Every page section takes part, so a section without a nav item (Expertise,
+  // Approach) clears the highlight instead of leaving the previous one stuck.
+  const sections = Array.from(document.querySelectorAll<HTMLElement>('main > section[id]'))
+  const navTargets = new Set(navigation.map((item) => item.href))
+  let frame = 0
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) active.value = `#${entry.target.id}`
+  function updateActive() {
+    frame = 0
+    if (target) return
+    const atBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2
+    const line = window.innerHeight * 0.35
+    let current = atBottom ? sections.at(-1) : undefined
+    if (!current) {
+      for (const section of sections) {
+        if (section.getBoundingClientRect().top <= line) current = section
       }
-    },
-    { rootMargin: '-35% 0px -60% 0px' }
-  )
-  sections.forEach((section) => observer.observe(section))
+    }
+    const href = current ? `#${current.id}` : ''
+    active.value = navTargets.has(href) ? href : ''
+  }
+
+  function onScroll() {
+    if (!frame) frame = requestAnimationFrame(updateActive)
+  }
+
+  release = () => {
+    clearTimeout(fallback)
+    if (!target) return
+    target = ''
+    updateActive()
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true })
+  window.addEventListener('resize', onScroll, { passive: true })
+  window.addEventListener('scrollend', release)
+  window.addEventListener('wheel', release, { passive: true })
+  window.addEventListener('touchmove', release, { passive: true })
+  updateActive()
 
   onBeforeUnmount(() => {
+    clearTimeout(fallback)
+    window.removeEventListener('scrollend', release)
+    window.removeEventListener('wheel', release)
+    window.removeEventListener('touchmove', release)
     window.removeEventListener('keydown', onKeydown)
     document.removeEventListener('pointerdown', onPointerDown)
-    observer.disconnect()
+    window.removeEventListener('scroll', onScroll)
+    window.removeEventListener('resize', onScroll)
+    cancelAnimationFrame(frame)
   })
 })
 </script>
@@ -68,7 +114,7 @@ onMounted(() => {
             <a
               :href="item.href"
               :aria-current="active === item.href ? 'location' : undefined"
-              @click="close()"
+              @click="onNavClick(item.href)"
               >{{ item.label }}</a
             >
           </li>
@@ -167,7 +213,6 @@ onMounted(() => {
 
 .site-nav a[aria-current='location'] {
   color: var(--blue-text);
-  font-weight: 600;
 }
 
 .site-nav__resume a {
@@ -222,12 +267,6 @@ onMounted(() => {
   .site-nav a:hover::after,
   .site-nav a[aria-current='location']::after {
     transform: scaleX(1);
-  }
-
-  .site-nav__resume {
-    margin-left: 0.5rem;
-    padding-left: 1.75rem;
-    border-left: 1px solid var(--rule);
   }
 }
 </style>
