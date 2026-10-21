@@ -5,8 +5,9 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
   fonts: {
     families: [
-      { name: 'Geist', provider: 'google', weights: [400, 500, 600, 700] },
-      { name: 'Geist Mono', provider: 'google', weights: [400, 500] }
+      // Preload the Latin files used above the fold so the text does not reflow when they arrive
+      { name: 'Geist', provider: 'google', weights: [400, 500, 600, 700], preload: true, subsets: ['latin'] },
+      { name: 'Geist Mono', provider: 'google', weights: [400, 500], preload: true, subsets: ['latin'] }
     ]
   },
   features: { inlineStyles: true },

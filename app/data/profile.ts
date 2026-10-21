@@ -247,7 +247,7 @@ export const languages = [
   { name: 'Italian', level: 'Native' },
   { name: 'Ukrainian', level: 'Native' },
   { name: 'Russian', level: 'Native' },
-  { name: 'Spanish', level: 'Basic understanding' }
+  { name: 'Spanish', level: 'Basic' }
 ]
 
 export const navigation = [
