@@ -58,7 +58,7 @@ export const hero = {
 
 export const about = [
   'I have spent more than eight years building web, mobile, and enterprise applications. I started as a hands-on developer in retail, hospitality, logistics, and e-commerce, and gradually took on architecture, code review, and team leadership.',
-  'My daily work is mostly Angular, TypeScript, C#/.NET, and SQL. At E80 Group I coordinate WebUI engineering across warehouse automation projects and act as a technical link between the Project and Product engineering departments.',
+  'My daily work is mostly Angular, TypeScript, C#/.NET, and SQL. At E80 Group S.P.A. I coordinate WebUI engineering across warehouse automation projects and act as a technical link between the Project and Product engineering departments.',
   'What keeps me interested is the part around the code: architecture, performance, developer experience, AI-assisted development, and the habits that make a team faster without making it louder.'
 ]
 
@@ -71,7 +71,7 @@ export const metrics: Metric[] = [
   {
     value: '40%',
     label: 'faster developer ramp-up',
-    context: 'After introducing structured onboarding and development processes at GAB Tamagnini.'
+    context: 'After introducing structured onboarding and development processes at GAB Tamagnini S.R.L.'
   },
   {
     value: '90%',
