@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineProps<{ name: 'download' | 'github' | 'linkedin' | 'mail' | 'arrow' | 'menu' | 'close' | 'up' }>()
+defineProps<{ name: 'download' | 'github' | 'linkedin' | 'mail' | 'arrow' | 'menu' | 'close' }>()
 </script>
 
 <template>
@@ -12,9 +12,6 @@ defineProps<{ name: 'download' | 'github' | 'linkedin' | 'mail' | 'arrow' | 'men
   <svg v-else-if="name === 'mail'" class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
     <rect x="3" y="5" width="18" height="14" rx="2" />
     <path d="m3.5 7 8.5 6 8.5-6" />
-  </svg>
-  <svg v-else-if="name === 'up'" class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-    <path d="M12 20V5m0 0-5 5m5-5 5 5" />
   </svg>
   <svg v-else-if="name === 'download'" class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
     <path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14" />
