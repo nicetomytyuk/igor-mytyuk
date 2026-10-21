@@ -157,14 +157,14 @@ onMounted(() => {
 </template>
 
 <style scoped>
-/* The canvas sits just inside the hero's edges, so the grid ends in a clean, even edge
-   of dots a short distance from the borders instead of touching them. */
+/* The canvas sits inside the hero with a margin, so the grid ends in a clean edge of
+   dots that line up with the page's content column instead of touching the borders. */
 .hero-grid {
   position: absolute;
-  top: 0.75rem;
-  bottom: 0.75rem;
+  top: 1.5rem;
+  bottom: 1.5rem;
   left: 0;
-  right: 0.75rem;
+  right: var(--gutter);
   z-index: 0;
   pointer-events: none;
   /* Small screens: a faint texture that fades out toward the text */
@@ -182,7 +182,10 @@ onMounted(() => {
 /* Wide screens: fill the empty right side, fading only toward the headline */
 @media (min-width: 62rem) {
   .hero-grid {
+    top: 2.25rem;
+    bottom: 2.25rem;
     left: 52%;
+    right: max(var(--gutter), calc((100% - var(--max)) / 2));
     opacity: 1;
     -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 45%);
     mask-image: linear-gradient(to right, transparent 0%, #000 45%);
