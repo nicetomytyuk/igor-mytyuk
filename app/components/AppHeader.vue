@@ -38,8 +38,8 @@ onMounted(() => {
   window.addEventListener('keydown', onKeydown)
   document.addEventListener('pointerdown', onPointerDown)
 
-  // Every page section takes part, so a section without a nav item (Expertise,
-  // Approach) clears the highlight instead of leaving the previous one stuck.
+  // A section without a nav item (Expertise, Approach) keeps the highlight on the
+  // last nav item above it, so the underline never drops out while scrolling.
   const sections = Array.from(document.querySelectorAll<HTMLElement>('main > section[id]'))
   const navTargets = new Set(navigation.map((item) => item.href))
   let frame = 0
@@ -49,14 +49,13 @@ onMounted(() => {
     if (target) return
     const atBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2
     const line = window.innerHeight * 0.35
-    let current = atBottom ? sections.at(-1) : undefined
-    if (!current) {
-      for (const section of sections) {
-        if (section.getBoundingClientRect().top <= line) current = section
-      }
+    let current = ''
+    for (const section of sections) {
+      const href = `#${section.id}`
+      if (!navTargets.has(href)) continue
+      if (section.getBoundingClientRect().top <= line) current = href
     }
-    const href = current ? `#${current.id}` : ''
-    active.value = navTargets.has(href) ? href : ''
+    active.value = atBottom ? (navigation.at(-1)?.href ?? current) : current
   }
 
   function onScroll() {
