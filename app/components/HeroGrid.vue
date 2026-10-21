@@ -7,7 +7,6 @@ const canvas = ref<HTMLCanvasElement | null>(null)
 
 const GAP = 32
 const RADIUS = 2.3
-const EDGE = 8
 const REACH = 150
 
 onMounted(() => {
@@ -43,18 +42,15 @@ onMounted(() => {
 
   function draw(t: number) {
     ctx!.clearRect(0, 0, w, h)
-    // Fit whole rows and columns between the edges, a few pixels in. The spacing flexes by
-    // a pixel or two instead of leaving a gap at the borders.
-    const cols = Math.max(2, Math.round((w - 2 * EDGE) / GAP) + 1)
-    const rows = Math.max(2, Math.round((h - 2 * EDGE) / GAP) + 1)
-    const gx = (w - 2 * EDGE) / (cols - 1)
-    const gy = (h - 2 * EDGE) / (rows - 1)
+    // An even lattice that simply continues past the canvas on every side. Dots near the
+    // borders are cut off by the edge, so the grid reads as part of a larger field and
+    // keeps its natural spacing. The start offset centres the pattern.
+    const sx = (w % GAP) / 2 - GAP
+    const sy = (h % GAP) / 2 - GAP
     const phase = t * 0.0006
 
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < cols; c++) {
-        const x = EDGE + c * gx
-        const y = EDGE + r * gy
+    for (let y = sy; y <= h + GAP; y += GAP) {
+      for (let x = sx; x <= w + GAP; x += GAP) {
         // Diagonal wave, sharpened so only a band of dots lights up at a time
         const wave = Math.max(0, Math.sin((x + y) * 0.011 - phase)) ** 5
         let swell = 0
@@ -157,14 +153,11 @@ onMounted(() => {
 </template>
 
 <style scoped>
-/* The canvas sits just inside the hero's edges, so the grid ends in a clean, even edge
-   of dots a short distance from the borders instead of touching them. */
+/* The canvas covers the whole hero. The dot lattice continues past its edges, so dots at
+   the borders are simply cut off and the spacing stays natural everywhere. */
 .hero-grid {
   position: absolute;
-  top: 0.75rem;
-  bottom: 0.75rem;
-  left: 0;
-  right: 0.75rem;
+  inset: 0;
   z-index: 0;
   pointer-events: none;
   /* Small screens: a faint texture that fades out toward the text */
