@@ -7,13 +7,13 @@ const canvas = ref<HTMLCanvasElement | null>(null)
 
 const GAP = 32
 const RADIUS = 2.3
-const EDGE = 5
+const EDGE = 8
 const REACH = 150
 
 onMounted(() => {
   const el = canvas.value
   const ctx = el?.getContext('2d')
-  const host = el?.parentElement
+  const host = el?.closest('section')
   if (!el || !ctx || !host) return
 
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -151,49 +151,53 @@ onMounted(() => {
 </script>
 
 <template>
-  <canvas ref="canvas" class="hero-grid" aria-hidden="true"></canvas>
+  <div class="hero-grid" aria-hidden="true">
+    <canvas ref="canvas" class="hero-grid__canvas"></canvas>
+  </div>
 </template>
 
 <style scoped>
+/* The canvas sits inside the hero with a margin, so the grid ends in a clean edge of
+   dots that line up with the page's content column instead of touching the borders. */
 .hero-grid {
   position: absolute;
-  inset: 0;
+  top: 1.5rem;
+  bottom: 1.5rem;
+  left: 0;
+  right: var(--gutter);
   z-index: 0;
-  width: 100%;
-  height: 100%;
   pointer-events: none;
-  /* The grid runs to the edges of the hero, so every outer edge is faded out
-     instead of ending in a hard line against the borders */
-  --fade-y: linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%);
-  --fade-right: linear-gradient(to right, #000 0%, #000 88%, transparent 100%);
   /* Small screens: a faint texture that fades out toward the text */
   opacity: 0.55;
-  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 85% 25%, #000 0%, transparent 75%), var(--fade-y), var(--fade-right);
-  mask-image: radial-gradient(ellipse 90% 70% at 85% 25%, #000 0%, transparent 75%), var(--fade-y), var(--fade-right);
-  -webkit-mask-composite: source-in, source-in;
-  mask-composite: intersect, intersect;
+  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 100% 0%, #000 0%, transparent 75%);
+  mask-image: radial-gradient(ellipse 90% 70% at 100% 0%, #000 0%, transparent 75%);
 }
 
-/* Wide screens: fill the empty right side, fading toward the headline and out at the other edges */
+.hero-grid__canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Wide screens: fill the empty right side, fading only toward the headline */
 @media (min-width: 62rem) {
   .hero-grid {
+    top: 2.25rem;
+    bottom: 2.25rem;
     left: 52%;
-    width: 48%;
+    right: max(var(--gutter), calc((100% - var(--max)) / 2));
     opacity: 1;
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 45%, #000 88%, transparent 100%), var(--fade-y);
-    mask-image: linear-gradient(to right, transparent 0%, #000 45%, #000 88%, transparent 100%), var(--fade-y);
-    -webkit-mask-composite: source-in;
-    mask-composite: intersect;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 45%);
+    mask-image: linear-gradient(to right, transparent 0%, #000 45%);
   }
 }
 
-/* Narrow desktops: the text takes most of the width, so the grid is a slimmer strip on the right */
+/* Narrow desktops: the text takes most of the width, so the grid is a slimmer strip */
 @media (min-width: 62rem) and (max-width: 79.99rem) {
   .hero-grid {
     left: 70%;
-    width: 30%;
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 60%, #000 88%, transparent 100%), var(--fade-y);
-    mask-image: linear-gradient(to right, transparent 0%, #000 60%, #000 88%, transparent 100%), var(--fade-y);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 60%);
+    mask-image: linear-gradient(to right, transparent 0%, #000 60%);
   }
 }
 </style>
