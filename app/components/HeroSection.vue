@@ -61,7 +61,9 @@ import { hero, site } from '~/data/profile'
 }
 
 .hero__title {
-  max-width: 15ch;
+  /* In em, not ch: ch depends on the font's "0" glyph, so the headline wrapped
+     differently in the fallback font than in Geist and jumped when Geist loaded. */
+  max-width: 10.24em;
   font-size: var(--step-4);
   line-height: 1.04;
   letter-spacing: -0.035em;
