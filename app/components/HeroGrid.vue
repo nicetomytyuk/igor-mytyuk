@@ -42,15 +42,18 @@ onMounted(() => {
 
   function draw(t: number) {
     ctx!.clearRect(0, 0, w, h)
-    // An even lattice that simply continues past the canvas on every side. Dots near the
-    // borders are cut off by the edge, so the grid reads as part of a larger field and
-    // keeps its natural spacing. The start offset centres the pattern.
-    const sx = (w % GAP) / 2 - GAP
-    const sy = (h % GAP) / 2 - GAP
+    // Whole rows and columns fitted edge to edge, with the outer dots centred exactly on
+    // the borders so the edge cuts them in half. The spacing flexes by a pixel or two to fit.
+    const cols = Math.max(2, Math.round(w / GAP))
+    const rows = Math.max(2, Math.round(h / GAP))
+    const gx = w / cols
+    const gy = h / rows
     const phase = t * 0.0006
 
-    for (let y = sy; y <= h + GAP; y += GAP) {
-      for (let x = sx; x <= w + GAP; x += GAP) {
+    for (let r = 0; r <= rows; r++) {
+      for (let c = 0; c <= cols; c++) {
+        const x = c * gx
+        const y = r * gy
         // Diagonal wave, sharpened so only a band of dots lights up at a time
         const wave = Math.max(0, Math.sin((x + y) * 0.011 - phase)) ** 5
         let swell = 0
