@@ -7,6 +7,7 @@ const canvas = ref<HTMLCanvasElement | null>(null)
 
 const GAP = 32
 const RADIUS = 2.3
+const EDGE = 5
 const REACH = 150
 
 onMounted(() => {
@@ -42,17 +43,18 @@ onMounted(() => {
 
   function draw(t: number) {
     ctx!.clearRect(0, 0, w, h)
-    const cols = Math.max(1, Math.floor(w / GAP))
-    const rows = Math.max(1, Math.floor(h / GAP))
-    const x0 = (w - (cols - 1) * GAP) / 2
-    const y0 = (h - (rows - 1) * GAP) / 2
+    // Fit whole rows and columns between the edges, a few pixels in. The spacing flexes by
+    // a pixel or two instead of leaving a gap at the borders.
+    const cols = Math.max(2, Math.round((w - 2 * EDGE) / GAP) + 1)
+    const rows = Math.max(2, Math.round((h - 2 * EDGE) / GAP) + 1)
+    const gx = (w - 2 * EDGE) / (cols - 1)
+    const gy = (h - 2 * EDGE) / (rows - 1)
     const phase = t * 0.0006
 
-    // Start one step outside each edge so the grid runs right up to (and past) the borders
-    for (let r = -1; r <= rows; r++) {
-      for (let c = -1; c <= cols; c++) {
-        const x = x0 + c * GAP
-        const y = y0 + r * GAP
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const x = EDGE + c * gx
+        const y = EDGE + r * gy
         // Diagonal wave, sharpened so only a band of dots lights up at a time
         const wave = Math.max(0, Math.sin((x + y) * 0.011 - phase)) ** 5
         let swell = 0
