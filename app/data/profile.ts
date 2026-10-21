@@ -215,7 +215,7 @@ export const skills: SkillGroup[] = [
   },
   {
     name: 'Data',
-    primary: ['SQL Server', 'Data integration'],
+    primary: ['SQL Server', 'Supabase', 'Data integration'],
     also: ['PostgreSQL', 'MySQL', 'Database design']
   },
   {
