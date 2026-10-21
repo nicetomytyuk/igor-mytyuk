@@ -45,7 +45,6 @@ export const site = {
   locality: 'Reggio Emilia',
   country: 'Italy',
   email: 'connect@igormytyuk.dev',
-  phone: '+39 391 1196 793',
   github: 'https://github.com/nicetomytyuk',
   linkedin: 'https://www.linkedin.com/in/igor-mytyuk/',
   resume: '/files/Ihor_Mytyuk_Resume.pdf'

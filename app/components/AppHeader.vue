@@ -4,6 +4,7 @@ import { navigation, site } from '~/data/profile'
 const open = ref(false)
 const active = ref('')
 const toggle = ref<HTMLButtonElement | null>(null)
+const header = ref<HTMLElement | null>(null)
 
 function close(returnFocus = false) {
   open.value = false
@@ -14,8 +15,13 @@ function onKeydown(event: KeyboardEvent) {
   if (event.key === 'Escape' && open.value) close(true)
 }
 
+function onPointerDown(event: PointerEvent) {
+  if (open.value && !header.value?.contains(event.target as Node)) close()
+}
+
 onMounted(() => {
   window.addEventListener('keydown', onKeydown)
+  document.addEventListener('pointerdown', onPointerDown)
 
   const sections = navigation
     .map((item) => document.querySelector(item.href))
@@ -33,13 +39,14 @@ onMounted(() => {
 
   onBeforeUnmount(() => {
     window.removeEventListener('keydown', onKeydown)
+    document.removeEventListener('pointerdown', onPointerDown)
     observer.disconnect()
   })
 })
 </script>
 
 <template>
-  <header class="site-header">
+  <header ref="header" class="site-header">
     <div class="wrap site-header__bar">
       <a class="site-header__brand" href="#top" @click="close()">Ihor Mytyuk</a>
 
@@ -199,7 +206,7 @@ onMounted(() => {
     font-size: var(--step--1);
   }
 
-  .site-nav a:not(.site-nav__resume a)::after {
+  .site-nav a::after {
     content: '';
     position: absolute;
     left: 0;
@@ -217,16 +224,10 @@ onMounted(() => {
     transform: scaleX(1);
   }
 
-  .site-nav__resume a {
-    padding: 0 1rem;
-    border: 1px solid var(--blue-text);
-    border-radius: 4px;
-    min-height: 2.5rem;
-  }
-
-  .site-nav__resume a:hover {
-    background: var(--blue-text);
-    color: #fff;
+  .site-nav__resume {
+    margin-left: 0.5rem;
+    padding-left: 1.75rem;
+    border-left: 1px solid var(--rule);
   }
 }
 </style>

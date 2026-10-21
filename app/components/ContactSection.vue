@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { site } from '~/data/profile'
-
-const telHref = `tel:${site.phone.replace(/\s/g, '')}`
 </script>
 
 <template>
@@ -31,10 +29,7 @@ const telHref = `tel:${site.phone.replace(/\s/g, '')}`
         </li>
       </ul>
 
-      <p class="contact__meta">
-        {{ site.locality }}, {{ site.country }} ·
-        <a :href="telHref">{{ site.phone }}</a>
-      </p>
+      <p class="contact__meta">{{ site.locality }}, {{ site.country }}</p>
     </div>
   </section>
 </template>
@@ -104,10 +99,6 @@ const telHref = `tel:${site.phone.replace(/\s/g, '')}`
   font-family: var(--font-mono);
   font-size: var(--step--1);
   color: #a9b6cc;
-}
-
-.contact__meta a {
-  color: #fff;
 }
 
 .contact :focus-visible {
