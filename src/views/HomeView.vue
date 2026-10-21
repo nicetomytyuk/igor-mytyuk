@@ -23,7 +23,7 @@ function mailto() {
       </h1>
       <div class="flex-1"></div>
       <div class="space-y-6 md:space-y space-x-4">
-        <a href="./static/Igor Mytyuk - Resume.pdf" target="_blank"
+        <a href="./static/Ihor Mytyuk - Resume.pdf" target="_blank"
           class="py-3 px-6 md:px-12 inline-flex items-center rounded-md bg-black font-medium text-white shadow-sm"
           type="button">
           Resume
