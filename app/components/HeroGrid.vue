@@ -162,20 +162,38 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   pointer-events: none;
+  /* The grid runs to the edges of the hero, so every outer edge is faded out
+     instead of ending in a hard line against the borders */
+  --fade-y: linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%);
+  --fade-right: linear-gradient(to right, #000 0%, #000 88%, transparent 100%);
   /* Small screens: a faint texture that fades out toward the text */
   opacity: 0.55;
-  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 100% 0%, #000 0%, transparent 75%);
-  mask-image: radial-gradient(ellipse 90% 70% at 100% 0%, #000 0%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 85% 25%, #000 0%, transparent 75%), var(--fade-y), var(--fade-right);
+  mask-image: radial-gradient(ellipse 90% 70% at 85% 25%, #000 0%, transparent 75%), var(--fade-y), var(--fade-right);
+  -webkit-mask-composite: source-in, source-in;
+  mask-composite: intersect, intersect;
 }
 
-/* Wide screens: fill the empty right side edge to edge, fading only toward the headline */
+/* Wide screens: fill the empty right side, fading toward the headline and out at the other edges */
 @media (min-width: 62rem) {
   .hero-grid {
     left: 52%;
     width: 48%;
     opacity: 1;
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 45%);
-    mask-image: linear-gradient(to right, transparent 0%, #000 45%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 45%, #000 88%, transparent 100%), var(--fade-y);
+    mask-image: linear-gradient(to right, transparent 0%, #000 45%, #000 88%, transparent 100%), var(--fade-y);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+  }
+}
+
+/* Narrow desktops: the text takes most of the width, so the grid is a slimmer strip on the right */
+@media (min-width: 62rem) and (max-width: 79.99rem) {
+  .hero-grid {
+    left: 70%;
+    width: 30%;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 60%, #000 88%, transparent 100%), var(--fade-y);
+    mask-image: linear-gradient(to right, transparent 0%, #000 60%, #000 88%, transparent 100%), var(--fade-y);
   }
 }
 </style>
